@@ -35,7 +35,6 @@ const user = createSlice({
         state.error = null;
       })
       .addCase(userDeleteAvatar.fulfilled, (state, { payload }) => {
-        console.log(payload);
         state.loading = false;
       })
       .addCase(userDeleteAvatar.rejected, (state, { payload }) => {

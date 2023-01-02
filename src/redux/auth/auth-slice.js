@@ -4,7 +4,6 @@ import { signUp, logIn, googleLogIn, logOut, userUpdateAccount } from './auth-op
 
 const initialState = {
   user: {},
-  newUser: false,
   todaySummary: {},
   accessToken: '',
   refreshToken: '',
@@ -42,10 +41,9 @@ const auth = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(signUp.fulfilled, (state, { payload }) => {
+      .addCase(signUp.fulfilled, (state, _) => {
         state.loading = false;
         state.isLogin = false;
-        state.newUser = payload.user.newUser;
       })
       .addCase(signUp.rejected, (state, { payload }) => {
         state.loading = false;

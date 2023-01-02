@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  // baseURL: 'https://kapusta-server.herokuapp.com/',
   baseURL: 'http://localhost:4000/',
 });
 
@@ -34,7 +33,6 @@ export const axiosGoogleLogIn = async userData => {
 };
 
 export const axiosLogOut = async accessToken => {
-  console.log(accessToken);
   token.set(accessToken);
   const { data } = await instance.post('api/auth/logout');
   token.unset();

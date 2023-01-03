@@ -1,5 +1,17 @@
 import instance from './auth';
 
+// Get expenses categories
+export const axiosGetExpensesCategories = async () => {
+  const { data } = await instance.get('api/transaction/expenses-categories');
+  return data;
+};
+
+// Get income categories
+export const axiosGetIncomeCategories = async () => {
+  const { data } = await instance.get('api/transaction/income-categories');
+  return data;
+};
+
 // Get transacations by month
 export const axiosGetTransactionsByMonth = async userData => {
   const { data } = await instance.post('api/transitions/timeLine', userData);

@@ -159,3 +159,27 @@
     }
 
 }
+
+.btnUpload {
+
+    width: 120px;
+    height: 34px;
+
+    font-weight: 700;
+    letter-spacing: var(--letter-spacing);
+    text-transform: var(--text-transform);
+
+    background-color: var(--btn-color);
+    color: var(--text-color);
+
+    border-color: transparent;
+    border-radius: 16px;
+
+    box-shadow: 1px 3px 5px rgb(82 85 95 / 15%);
+
+    &:hover,
+    :focus {
+        background-color: var(--btn-hover);
+        color: var(--text-color-invert);
+    }
+}

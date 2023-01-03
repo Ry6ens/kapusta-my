@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { getCurrentDate } from 'redux/transaction/transaction-selectors';
-import { getExpensesTransByDate } from 'redux/transaction/transaction-operations';
+import {
+  getExpensesTransByDate,
+  getExpensesCategories,
+} from 'redux/transaction/transaction-operations';
 
 import Section from 'components/layout/Section/Section';
 
@@ -39,6 +42,7 @@ export default function ExpensesPage() {
       return;
     }
     dispatch(getExpensesTransByDate({ reqDate: currentDate }));
+    dispatch(getExpensesCategories());
   }, [dispatch, currentDate]);
 
   return (

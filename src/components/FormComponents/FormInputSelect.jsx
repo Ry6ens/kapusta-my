@@ -1,4 +1,5 @@
 import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { Controller } from 'react-hook-form';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
@@ -7,7 +8,7 @@ import Select from '@mui/material/Select';
 import { styled } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import { optionsExp, optionsInc } from './optionsSelect';
+import { getExpCateg, getIncomCateg } from 'redux/transaction/transaction-selectors';
 
 const CssFormControl = styled(FormControl)({
   width: '100%',
@@ -109,6 +110,8 @@ const MenuItemStyled = styled(MenuItem)({
 
 export default function FormInputSelect({ name, control, label, required }) {
   const { pathname } = useLocation();
+  const optionsExp = useSelector(getExpCateg);
+  const optionsInc = useSelector(getIncomCateg);
 
   const isMobile = useMediaQuery('(max-width: 767.98px)');
   const isTablet = useMediaQuery('(min-width: 768px)');

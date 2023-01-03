@@ -1,6 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import {
+  axiosGetExpensesCategories,
+  axiosGetIncomeCategories,
   axiosGetTransactionsByMonth,
   axiosAddTransaction,
   axiosDeleteTransaction,
@@ -9,6 +11,32 @@ import {
   axiosGetChartData,
 } from 'api/transactions';
 import { axiosUserAddBalance } from 'api/user';
+
+export const getExpensesCategories = createAsyncThunk(
+  'transaction/getExpensesCategoties',
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await axiosGetExpensesCategories();
+      return data;
+    } catch (error) {
+      const { data, status } = error.response;
+      return rejectWithValue({ data, status });
+    }
+  }
+);
+
+export const getIncomeCategories = createAsyncThunk(
+  'transaction/getIncomeCategoties',
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await axiosGetIncomeCategories();
+      return data;
+    } catch (error) {
+      const { data, status } = error.response;
+      return rejectWithValue({ data, status });
+    }
+  }
+);
 
 export const userAddBalance = createAsyncThunk(
   'user/addBalance',

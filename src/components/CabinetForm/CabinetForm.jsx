@@ -1,21 +1,20 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { Avatar } from '@mui/material';
 
 import { getUser } from 'redux/auth/auth-selectors';
-import { userDelete } from 'redux/user/user-operations';
-import { logOut, userUpdateAccount } from 'redux/auth/auth-operations';
+import { logOut, userDelete, userUpdateAccount } from 'redux/auth/auth-operations';
 
 import TitleH1 from 'components/ui/TitleH1/TitleH1';
 import Text from 'components/ui/Text/Text';
 import Button from 'components/ui/Button/Button';
 
+import Modal from 'components/layout/Modal/Modal';
+
 import FormInputText from 'components/FormComponents/FormInputText';
-import FormInputFile from 'components/CabinetForm/FormComponents/FormInputFile';
 import FormInputSelect from 'components/CabinetForm/FormComponents/FormInputSelect';
 import FormInputEmail from 'components/FormComponents/FormInputEmail';
-import Modal from 'components/layout/Modal/Modal';
+import AvatarUpload from './AvatarUpload/AvatarUpload';
 
 import CloseIcon from 'components/icons/Close/Close';
 
@@ -31,38 +30,23 @@ import s from './CabinetForm.module.scss';
 export default function CabinetForm() {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
-  const {
-    _id,
-    avatarURL,
-    name,
-    firstName,
-    lastName,
-    gender,
-    dateBirth,
-    monthBirth,
-    yearBirth,
-    email,
-  } = useSelector(getUser);
+  const { id, firstName, lastName, gender, dateBirth, monthBirth, yearBirth, email } =
+    useSelector(getUser);
 
-  const { control, register, handleSubmit, reset } = useForm({
+  const { control, handleSubmit, reset } = useForm({
     defaultValues: {
-      avatar: {},
       firstName: '',
       lastName: '',
-      sex: '',
-      date: '',
-      month: '',
-      year: '',
+      gender: '',
+      dateBirth: '',
+      monthBirth: '',
+      yearBirth: '',
       email: '',
     },
   });
 
-  const onSubmit = ({ avatar, firstName, lastName, sex, date, month, year, email }) => {
-    const avatarIMG = avatar[0];
-
-    dispatch(
-      userUpdateAccount({ avatarIMG, firstName, lastName, sex, date, month, year, email })
-    );
+  const onSubmit = data => {
+    dispatch(userUpdateAccount(data));
     reset();
   };
 
@@ -71,7 +55,7 @@ export default function CabinetForm() {
   };
 
   const handleDeleteAccount = () => {
-    dispatch(userDelete(_id));
+    dispatch(userDelete(id));
     dispatch(logOut());
   };
 
@@ -83,34 +67,21 @@ export default function CabinetForm() {
     <div className={s.cabinetForm}>
       <TitleH1 text="Account settings" />
       <Text text="Profile photo" textClass="textAccount" />
+      <AvatarUpload />
       <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
-        <div className={s.imgForm}>
-          <Avatar alt={name} src={avatarURL} width="72px" height="72px" />
-          <FormInputFile register={register} />
-        </div>
         <div className={s.names}>
           <div className={s.name}>
             <Text text="First Name:" textClass="textFormEmail" />
-            <FormInputText
-              name="firstName"
-              control={control}
-              label={firstName}
-              // required="This is a required field"
-            />
+            <FormInputText name="firstName" control={control} label={firstName} />
           </div>
           <div className={s.name}>
             <Text text="Last Name:" textClass="textFormEmail" />
-            <FormInputText
-              name="lastName"
-              control={control}
-              label={lastName}
-              // required="This is a required field"
-            />
+            <FormInputText name="lastName" control={control} label={lastName} />
           </div>
         </div>
         <Text text="Gender (optional):" textClass="textFormEmail" />
         <FormInputSelect
-          name="sex"
+          name="gender"
           options={optionsSex}
           control={control}
           label={gender}
@@ -119,21 +90,21 @@ export default function CabinetForm() {
         <Text text="Date of birth (optional):" textClass="textFormEmail" />
         <div className={s.date}>
           <FormInputSelect
-            name="date"
+            name="dateBirth"
             options={optionsDate}
             control={control}
             label={dateBirth}
             required={false}
           />
           <FormInputSelect
-            name="month"
+            name="monthBirth"
             options={optionsMonth}
             control={control}
             label={monthBirth}
             required={false}
           />
           <FormInputSelect
-            name="year"
+            name="yearBirth"
             options={optionsYear}
             control={control}
             label={yearBirth}

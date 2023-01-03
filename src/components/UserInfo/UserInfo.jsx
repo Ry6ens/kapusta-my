@@ -22,7 +22,7 @@ export default function UserInfo() {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
 
-  const { firstName, avatarURL } = useSelector(getUser);
+  const { firstName, avatarUrl } = useSelector(getUser);
 
   const isMobile = useMediaQuery('(max-width:767.98px)');
   const isTablet = useMediaQuery('(min-width:768px)');
@@ -44,7 +44,7 @@ export default function UserInfo() {
   return (
     <div className={s.userinfo}>
       <Link to="/settings/account">
-        <Avatar alt={firstName} src={avatarURL} width="32px" height="32px" />
+        <Avatar alt={firstName} src={avatarUrl} width="32px" height="32px" />
       </Link>
       {isMobile && (
         <LogoutIcon

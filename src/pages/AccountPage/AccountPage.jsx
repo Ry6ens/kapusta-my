@@ -10,7 +10,7 @@ export default function AccountPage() {
   return (
     <>
       <Section sectionClass="sectionMarg">
-        <ButtonBack btnClass="btnAccount" width="18" height="12" to="/settings" />
+        <ButtonBack text="Main page" width="18" height="12" to="/" />
         <CabinetForm />
         <KapustaTwoIcon iconClass="homeBottom" width="183" height="142" />
       </Section>

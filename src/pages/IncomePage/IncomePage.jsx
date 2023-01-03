@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import { getIncomeTransByDate } from 'redux/transaction/transaction-operations';
+import {
+  getIncomeTransByDate,
+  getIncomeCategories,
+} from 'redux/transaction/transaction-operations';
 import { getCurrentDate } from 'redux/transaction/transaction-selectors';
 
 import Section from 'components/layout/Section/Section';
@@ -40,6 +43,7 @@ export default function IncomePage() {
       return;
     }
     dispatch(getIncomeTransByDate({ reqDate: currentDate }));
+    dispatch(getIncomeCategories());
   }, [dispatch, currentDate]);
 
   return (

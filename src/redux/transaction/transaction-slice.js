@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import {
+  getExpensesCategories,
+  getIncomeCategories,
   userAddBalance,
   getTransactionsByMonth,
   addTransaction,
@@ -12,6 +14,8 @@ import {
 
 const initialState = {
   balance: 0,
+  expensesCategories: [],
+  incomeCategories: [],
   monthlySum: [],
   transactions: [],
   currentDate: '',
@@ -34,6 +38,36 @@ const transactions = createSlice({
     },
   },
   extraReducers: builder => {
+    // Get expenses categories
+    builder
+      .addCase(getExpensesCategories.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getExpensesCategories.fulfilled, (state, { payload }) => {
+        state.expensesCategories = payload;
+        state.loading = false;
+      })
+      .addCase(getExpensesCategories.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload.data.message;
+      });
+
+    // Get income categories
+    builder
+      .addCase(getIncomeCategories.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getIncomeCategories.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.incomeCategories = payload;
+      })
+      .addCase(getIncomeCategories.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload.data.message;
+      });
+
     // User add balance
     builder
       .addCase(userAddBalance.pending, state => {

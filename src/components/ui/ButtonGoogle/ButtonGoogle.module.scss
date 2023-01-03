@@ -1,0 +1,21 @@
+.btn {
+    margin: 30px auto 0px auto;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    width: 120px;
+    height: 40px;
+
+    background: var(--second-background-color);
+
+    border-radius: 26px;
+
+    &:hover,
+    &:focus {
+        background: var(--btn-hover);
+        color: var(--text-color-invert)
+    }
+}

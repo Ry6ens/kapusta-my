@@ -1,14 +1,13 @@
-import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import jwt_decode from 'jwt-decode';
 
-import { logIn, googleLogIn } from 'redux/auth/auth-operations';
+import { logIn } from 'redux/auth/auth-operations';
 import { getErrorLogIn } from 'redux/auth/auth-selectors';
-import { clearError } from 'redux/auth/auth-slice';
 
 import Text from 'components/ui/Text/Text';
+import ButtonGoogle from 'components/ui/ButtonGoogle/ButtonGoogle';
+
 import FormInputEmail from 'components/FormComponents/FormInputEmail';
 import FormInputPassword from 'components/FormComponents/FormInputPassword';
 
@@ -19,28 +18,6 @@ export default function FormLogin() {
   const dispatch = useDispatch();
 
   const errorLogIn = useSelector(getErrorLogIn);
-
-  useEffect(() => {
-    /* global google */
-    google.accounts.id.initialize({
-      client_id:
-        '160834485099-gokn0fab6bj7qdmo42gdgp116u78c1dt.apps.googleusercontent.com',
-      callback: handleCallbackResponse,
-    });
-
-    google.accounts.id.renderButton(document.getElementById('singInDiv'), {
-      theme: 'outline',
-      type: 'icon',
-      size: 'large',
-    });
-
-    function handleCallbackResponse(response) {
-      const userObj = jwt_decode(response.credential);
-      dispatch(googleLogIn(userObj));
-    }
-
-    dispatch(clearError());
-  }, [dispatch]);
 
   const getClassName = ({ isActive }) => {
     return isActive ? `${s.link} ${s.active}` : s.link;
@@ -64,7 +41,7 @@ export default function FormLogin() {
         text="You can log in with your Google &#173; Account:"
         textClass="textFormHead"
       />
-      <div id="singInDiv" className={s.googleButton} />
+      <ButtonGoogle />
       <Text
         text="Or log in using an email and password,
 after registering:"

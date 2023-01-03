@@ -1,6 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { signUp, logIn, googleLogIn, logOut, userUpdateAccount } from './auth-operations';
+import {
+  signUp,
+  logIn,
+  googleLogIn,
+  refresh,
+  logOut,
+  userDelete,
+  userUpdateAvatar,
+  userUpdateAccount,
+} from './auth-operations';
 
 const initialState = {
   user: {},
@@ -53,11 +62,11 @@ const auth = createSlice({
     // LogIn
     builder
       .addCase(logIn.pending, state => {
-        state.newUser = false;
         state.loading = true;
         state.error = null;
       })
       .addCase(logIn.fulfilled, (state, { payload }) => {
+        state.loading = false;
         accessAuth(state, payload);
       })
       .addCase(logIn.rejected, (state, { payload }) => {
@@ -72,9 +81,28 @@ const auth = createSlice({
         state.error = null;
       })
       .addCase(googleLogIn.fulfilled, (state, { payload }) => {
+        state.loading = false;
         accessAuth(state, payload);
       })
       .addCase(googleLogIn.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload.data.message;
+      });
+
+    // Refresh token
+    builder
+      .addCase(refresh.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(refresh.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        accessAuth(state, payload);
+        state.sid = payload.newSid;
+        state.accessToken = payload.newAccessToken;
+        state.refreshToken = payload.newRefreshToken;
+      })
+      .addCase(refresh.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload.data.message;
       });
@@ -91,15 +119,45 @@ const auth = createSlice({
         state.error = payload.data.message;
       });
 
-    // User update account
+    // Delete user
+    builder
+      .addCase(userDelete.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(userDelete.fulfilled, (state, { payload }) => {
+        state.message = payload.message;
+        state.loading = false;
+      })
+      .addCase(userDelete.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload.data.message;
+      });
+
+    // Update avatar
+    builder
+      .addCase(userUpdateAvatar.pending, state => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(userUpdateAvatar.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.user.avatarUrl = payload.avatarUrl;
+      })
+      .addCase(userUpdateAvatar.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload.data.message;
+      });
+
+    // Update account
     builder
       .addCase(userUpdateAccount.pending, state => {
         state.loading = true;
         state.error = null;
       })
       .addCase(userUpdateAccount.fulfilled, (state, { payload }) => {
-        accessAuth(state, payload);
         state.loading = false;
+        state.user = payload;
       })
       .addCase(userUpdateAccount.rejected, (state, { payload }) => {
         state.loading = false;

@@ -14,7 +14,7 @@ import Button from 'components/ui/Button/Button';
 
 import CalculatorIcon from 'components/icons/Calculator/Calculator';
 
-import CalendarHome from 'components/Calendar/Calendar';
+import Calendar from 'components/Calendar/Calendar';
 
 import s from './FormAddTransaction.module.scss';
 
@@ -37,11 +37,11 @@ export default function FormAddTransaction() {
   const onSubmit = data => {
     if (pathname === '/income') {
       const addTransactionData = {
-        transitionName: 'income',
-        transitionDate: currentDate,
-        transitionCategory: data.category,
-        transitionValue: +data.balance,
-        transitionDescription: data.description,
+        type: 'income',
+        date: currentDate,
+        category: data.category,
+        amount: +data.balance,
+        description: data.description,
       };
 
       dispatch(addTransaction(addTransactionData));
@@ -49,11 +49,11 @@ export default function FormAddTransaction() {
 
     if (pathname === '/expenses') {
       const addTransactionData = {
-        transitionName: 'expenses',
-        transitionDate: currentDate,
-        transitionCategory: data.category,
-        transitionValue: +data.balance,
-        transitionDescription: data.description,
+        type: 'expenses',
+        date: currentDate,
+        category: data.category,
+        amount: +data.balance,
+        description: data.description,
       };
 
       dispatch(addTransaction(addTransactionData));
@@ -68,7 +68,7 @@ export default function FormAddTransaction() {
 
   return (
     <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
-      {isTablet && <CalendarHome />}
+      {isTablet && <Calendar />}
       <FormInputText
         name="description"
         control={control}

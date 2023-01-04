@@ -3,16 +3,14 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   axiosGetExpensesCategories,
   axiosGetIncomeCategories,
-  axiosGetTransactionsByMonth,
   axiosAddTransaction,
   axiosDeleteTransaction,
-  axiosGetExpensesTransByDate,
-  axiosGetIncomeTransByDate,
-  axiosGetChartData,
+  axiosGetExpensesTransactionsByDate,
+  axiosGetIncomeTransactionsByDate,
 } from 'api/transactions';
 
 export const getExpensesCategories = createAsyncThunk(
-  'transaction/getExpensesCategoties',
+  'transaction/getExpenCateg',
   async (_, { rejectWithValue }) => {
     try {
       const data = await axiosGetExpensesCategories();
@@ -25,7 +23,7 @@ export const getExpensesCategories = createAsyncThunk(
 );
 
 export const getIncomeCategories = createAsyncThunk(
-  'transaction/getIncomeCategoties',
+  'transaction/getIncomCateg',
   async (_, { rejectWithValue }) => {
     try {
       const data = await axiosGetIncomeCategories();
@@ -37,85 +35,53 @@ export const getIncomeCategories = createAsyncThunk(
   }
 );
 
-export const getTransactionsByMonth = createAsyncThunk(
-  'transactions/byMonth',
-  async (userData, { rejectWithValue }) => {
-    try {
-      const data = await axiosGetTransactionsByMonth(userData);
-      return data;
-    } catch (error) {
-      const { data, status } = error.response;
-
-      return rejectWithValue({ data, status });
-    }
-  }
-);
-
 export const addTransaction = createAsyncThunk(
-  'transactions/addTransaction',
+  'transaction/add',
   async (userData, { rejectWithValue }) => {
     try {
       const data = await axiosAddTransaction(userData);
       return data;
     } catch (error) {
       const { data, status } = error.response;
-
       return rejectWithValue({ data, status });
     }
   }
 );
 
 export const deleteTransaction = createAsyncThunk(
-  'transactions/deleteTransaction',
+  'transaction/delete',
   async (userData, { rejectWithValue }) => {
     try {
       const data = await axiosDeleteTransaction(userData);
       return data;
     } catch (error) {
       const { data, status } = error.response;
-
       return rejectWithValue({ data, status });
     }
   }
 );
 
-export const getExpensesTransByDate = createAsyncThunk(
-  'transactions/getExpTransByDate',
+export const getExpensesTransactionsByDate = createAsyncThunk(
+  'transaction/getExpenByDate',
   async (userData, { rejectWithValue }) => {
     try {
-      const data = await axiosGetExpensesTransByDate(userData);
+      const data = await axiosGetExpensesTransactionsByDate(userData);
       return data;
     } catch (error) {
       const { data, status } = error.response;
-
       return rejectWithValue({ data, status });
     }
   }
 );
 
-export const getIncomeTransByDate = createAsyncThunk(
-  'transactions/getIncTransByDate',
+export const getIncomeTransactionsByDate = createAsyncThunk(
+  'transaction/getIncomByDate',
   async (userData, { rejectWithValue }) => {
     try {
-      const data = await axiosGetIncomeTransByDate(userData);
+      const data = await axiosGetIncomeTransactionsByDate(userData);
       return data;
     } catch (error) {
       const { data, status } = error.response;
-
-      return rejectWithValue({ data, status });
-    }
-  }
-);
-
-export const getChartData = createAsyncThunk(
-  'transactions/getChartDataDetail',
-  async (userData, { rejectWithValue }) => {
-    try {
-      const data = await axiosGetChartData(userData);
-      return data;
-    } catch (error) {
-      const { data, status } = error.response;
-
       return rejectWithValue({ data, status });
     }
   }

@@ -7,7 +7,7 @@ import { checkBalance } from 'redux/balance/balance-selectors';
 import { getCurrentDate } from 'redux/transaction/transaction-selectors';
 
 import { getBalance } from 'redux/balance/balance-operations';
-import { getTransactionsByMonth } from 'redux/transaction/transaction-operations';
+// import { getTransactionsByMonth } from 'redux/transaction/transaction-operations';
 
 import Section from 'components/layout/Section/Section';
 
@@ -43,7 +43,7 @@ export default function HomePage() {
       return;
     }
     dispatch(getBalance());
-    dispatch(getTransactionsByMonth({ reqDate: currentDate }));
+    // dispatch(getTransactionsByMonth({ reqDate: currentDate }));
   }, [dispatch, currentDate]);
 
   return (

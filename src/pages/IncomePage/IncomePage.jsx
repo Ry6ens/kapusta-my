@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import {
-  getIncomeTransByDate,
+  getIncomeTransactionsByDate,
   getIncomeCategories,
 } from 'redux/transaction/transaction-operations';
 import { getCurrentDate } from 'redux/transaction/transaction-selectors';
@@ -39,11 +39,11 @@ export default function IncomePage() {
   const currentDate = useSelector(getCurrentDate);
 
   useEffect(() => {
-    if (currentDate === '') {
-      return;
-    }
-    dispatch(getIncomeTransByDate({ reqDate: currentDate }));
     dispatch(getIncomeCategories());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getIncomeTransactionsByDate({ date: currentDate }));
   }, [dispatch, currentDate]);
 
   return (

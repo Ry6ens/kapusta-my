@@ -2,12 +2,11 @@ import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 
-import {
-  deleteTransaction,
-  getTransactionsByMonth,
-  getExpensesTransByDate,
-  getIncomeTransByDate,
-} from 'redux/transaction/transaction-operations';
+import // deleteTransaction,
+// getTransactionsByMonth,
+// getExpensesTransByDate,
+// getIncomeTransByDate,
+'redux/transaction/transaction-operations';
 import {
   getCurrentDate,
   getTransactions,
@@ -39,15 +38,15 @@ export default function TransactionList({ listClass = 'list' }) {
   useEffect(() => {
     if (didMountRef.current) {
       if (pathname === '/income') {
-        dispatch(getIncomeTransByDate({ reqDate: currentDate }));
+        // dispatch(getIncomeTransByDate({ reqDate: currentDate }));
       }
 
       if (pathname === '/expenses') {
-        dispatch(getExpensesTransByDate({ reqDate: currentDate }));
+        // dispatch(getExpensesTransByDate({ reqDate: currentDate }));
       }
 
       if (pathname === '/') {
-        dispatch(getTransactionsByMonth({ reqDate: currentDate }));
+        // dispatch(getTransactionsByMonth({ reqDate: currentDate }));
       }
     }
 
@@ -74,7 +73,7 @@ export default function TransactionList({ listClass = 'list' }) {
   };
 
   const handleDeleteItem = () => {
-    dispatch(deleteTransaction(id));
+    // dispatch(deleteTransaction(id));
     setShowModal(false);
   };
 

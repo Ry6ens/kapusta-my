@@ -48,8 +48,8 @@ export const axiosLogOut = async accessToken => {
 };
 
 // Delete user account
-export const axiosUserDelete = async userId => {
-  const { data } = await instance.delete(`api/auth/${userId}`);
+export const axiosUserDelete = async userData => {
+  const { data } = await instance.delete(`api/auth/${userData}`);
   return data;
 };
 

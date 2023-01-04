@@ -3,19 +3,17 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   getExpensesCategories,
   getIncomeCategories,
-  getTransactionsByMonth,
   addTransaction,
   deleteTransaction,
-  getExpensesTransByDate,
-  getIncomeTransByDate,
-  getChartData,
+  getExpensesTransactionsByDate,
+  getIncomeTransactionsByDate,
 } from './transaction-operations';
 
 const initialState = {
   expensesCategories: [],
   incomeCategories: [],
-  monthlySum: [],
   transactions: [],
+  monthlySum: [],
   currentDate: '',
   message: '',
   loading: false,
@@ -66,33 +64,15 @@ const transactions = createSlice({
         state.error = payload.data.message;
       });
 
-    // Get transactions by month
-    builder
-      .addCase(getTransactionsByMonth.pending, state => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(getTransactionsByMonth.fulfilled, (state, { payload }) => {
-        state.balance = payload.balance;
-        state.monthlySum = payload.monthlySum;
-        state.transactions = payload.transitions;
-        state.loading = false;
-      })
-      .addCase(getTransactionsByMonth.rejected, (state, { payload }) => {
-        state.loading = false;
-        state.error = payload.data.message;
-      });
-
     // Add transaction
     builder
       .addCase(addTransaction.pending, state => {
-        state.message = '';
         state.loading = true;
         state.error = null;
       })
       .addCase(addTransaction.fulfilled, (state, { payload }) => {
-        state.message = payload.transitionName;
         state.loading = false;
+        state.transactions.push(payload);
       })
       .addCase(addTransaction.rejected, (state, { payload }) => {
         state.loading = false;
@@ -102,64 +82,44 @@ const transactions = createSlice({
     // Delete transaction
     builder
       .addCase(deleteTransaction.pending, state => {
-        state.message = '';
         state.loading = true;
         state.error = null;
       })
       .addCase(deleteTransaction.fulfilled, (state, { payload }) => {
-        state.message = payload.message;
         state.loading = false;
+        state.transactions = state.transactions.filter(el => el._id !== payload._id);
       })
       .addCase(deleteTransaction.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload.data.message;
       });
 
-    // Get expenses transaction by date
+    // Get expenses transactions by date
     builder
-      .addCase(getExpensesTransByDate.pending, state => {
+      .addCase(getExpensesTransactionsByDate.pending, state => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(getExpensesTransByDate.fulfilled, (state, { payload }) => {
-        state.balance = payload.balance;
-        state.monthlySum = payload.monthlySum;
-        state.transactions = payload.transitionByDate;
+      .addCase(getExpensesTransactionsByDate.fulfilled, (state, { payload }) => {
         state.loading = false;
+        state.transactions = payload;
       })
-      .addCase(getExpensesTransByDate.rejected, (state, { payload }) => {
+      .addCase(getExpensesTransactionsByDate.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload.data.message;
       });
 
-    // Get income transaction by date
+    // Get income transactions by date
     builder
-      .addCase(getIncomeTransByDate.pending, state => {
+      .addCase(getIncomeTransactionsByDate.pending, state => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(getIncomeTransByDate.fulfilled, (state, { payload }) => {
-        state.balance = payload.balance;
-        state.monthlySum = payload.monthlySum;
-        state.transactions = payload.transitionByDate;
+      .addCase(getIncomeTransactionsByDate.fulfilled, (state, { payload }) => {
         state.loading = false;
+        state.transactions = payload;
       })
-      .addCase(getIncomeTransByDate.rejected, (state, { payload }) => {
-        state.loading = false;
-        state.error = payload.data.message;
-      });
-
-    // Get chart data
-    builder
-      .addCase(getChartData.pending, state => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(getChartData.fulfilled, (state, { payload }) => {
-        state.chartData = payload;
-        state.loading = false;
-      })
-      .addCase(getChartData.rejected, (state, { payload }) => {
+      .addCase(getIncomeTransactionsByDate.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload.data.message;
       });

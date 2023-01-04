@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import { getChartData } from 'redux/transaction/transaction-operations';
+// import { getChartData } from 'redux/transaction/transaction-operations';
 import {
   getCalendarDate,
   getCategoryData,
@@ -65,12 +65,12 @@ function Chart() {
   const sorteredData = data.sort((a, b) => b.price - a.price);
 
   useEffect(() => {
-    dispatch(
-      getChartData({
-        reqDate: calendarDate || '12/01/2022',
-        transitionCategory: 'Other',
-      })
-    );
+    // dispatch(
+    //   getChartData({
+    //     reqDate: calendarDate || '12/01/2022',
+    //     transitionCategory: 'Other',
+    //   })
+    // );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [calendarDate]);
 

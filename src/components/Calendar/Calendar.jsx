@@ -13,21 +13,21 @@ import ArrowCalendRightIcon from 'components/icons/ArrowCalendRight/ArrowCalendR
 
 import s from './Calendar.module.scss';
 
-export default function Calendar({ dateFormat = 'MM.dd.yyyy', showMonthYearPicker }) {
+export default function Calendar({ dateFormat = 'dd.MM.yyyy', showMonthYearPicker }) {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
 
   const [startDate, setStartDate] = useState(new Date());
 
   useEffect(() => {
-    dispatch(addDate(moment(new Date()).format('MM/DD/yyyy')));
+    dispatch(addDate(moment(new Date()).format('DD.MM.yyyy')));
   }, [dispatch]);
 
   const pathNamePage =
     pathname === '/' || pathname === '/expenses' || pathname === '/income' ? true : false;
 
   const handleChange = data => {
-    const setDate = moment(data).format('MM/DD/yyyy');
+    const setDate = moment(data).format('DD.MM.yyyy');
     setStartDate(data);
     dispatch(addDate(setDate));
   };

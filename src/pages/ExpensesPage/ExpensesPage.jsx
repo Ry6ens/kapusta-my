@@ -4,7 +4,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { getCurrentDate } from 'redux/transaction/transaction-selectors';
 import {
-  getExpensesTransByDate,
+  getExpensesTransactionsByDate,
   getExpensesCategories,
 } from 'redux/transaction/transaction-operations';
 
@@ -38,11 +38,11 @@ export default function ExpensesPage() {
   const currentDate = useSelector(getCurrentDate);
 
   useEffect(() => {
-    if (currentDate === '') {
-      return;
-    }
-    dispatch(getExpensesTransByDate({ reqDate: currentDate }));
     dispatch(getExpensesCategories());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getExpensesTransactionsByDate({ date: currentDate }));
   }, [dispatch, currentDate]);
 
   return (

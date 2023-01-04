@@ -22,10 +22,6 @@ export default function TransactionTable({ sectionClass = 'tbody' }) {
 
   const items = useSelector(getTransactions);
 
-  if (items === undefined) {
-    return;
-  }
-
   const reversedItems = [...items].reverse();
 
   const handelDelete = ({ currentTarget: { id } }) => {

@@ -47,14 +47,14 @@ export default function Calendar({ dateFormat = 'dd.MM.yyyy', showMonthYearPicke
   };
 
   const CustomInputExpInc = forwardRef(({ value, onClick }, ref) => (
-    <button className={s.btn} onClick={onClick} ref={ref}>
+    <button type="button" className={s.btn} onClick={onClick} ref={ref}>
       <CalendarIcon width="20" height="18" />
       {value}
     </button>
   ));
 
   const CustomInputRep = forwardRef(({ value, onClick }, ref) => (
-    <button className={s.btnReport} onClick={onClick} ref={ref}>
+    <button type="button" className={s.btnReport} onClick={onClick} ref={ref}>
       {value}
     </button>
   ));

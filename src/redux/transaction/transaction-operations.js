@@ -10,7 +10,6 @@ import {
   axiosGetIncomeTransByDate,
   axiosGetChartData,
 } from 'api/transactions';
-import { axiosUserAddBalance } from 'api/user';
 
 export const getExpensesCategories = createAsyncThunk(
   'transaction/getExpensesCategoties',
@@ -30,19 +29,6 @@ export const getIncomeCategories = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const data = await axiosGetIncomeCategories();
-      return data;
-    } catch (error) {
-      const { data, status } = error.response;
-      return rejectWithValue({ data, status });
-    }
-  }
-);
-
-export const userAddBalance = createAsyncThunk(
-  'user/addBalance',
-  async (userData, { rejectWithValue }) => {
-    try {
-      const data = await axiosUserAddBalance(userData);
       return data;
     } catch (error) {
       const { data, status } = error.response;

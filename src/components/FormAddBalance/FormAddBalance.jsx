@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
-import { userAddBalance } from 'redux/transaction/transaction-operations';
-import { getBalance } from 'redux/transaction/transaction-selectors';
+import { addBalance } from 'redux/balance/balance-operations';
+import { checkBalance } from 'redux/balance/balance-selectors';
 
 import FormInputNumber from './FormInputNumber';
 
@@ -15,7 +15,7 @@ import s from './FormAddBalance.module.scss';
 
 export default function FormAddBalance() {
   const dispatch = useDispatch();
-  const balance = useSelector(getBalance);
+  const balance = useSelector(checkBalance);
 
   const { control, handleSubmit, reset } = useForm({
     defaultValues: {
@@ -28,7 +28,7 @@ export default function FormAddBalance() {
   }
 
   const onSubmit = userData => {
-    dispatch(userAddBalance(userData));
+    dispatch(addBalance(userData));
     reset();
   };
 

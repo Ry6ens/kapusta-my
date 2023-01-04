@@ -12,6 +12,7 @@ import {
 } from 'redux-persist';
 
 import authSlice from 'redux/auth/auth-slice';
+import balanceSlice from 'redux/balance/balance-slice';
 import transactionsSlice from './transaction/transaction-slice';
 
 const persistConfig = {
@@ -23,7 +24,11 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, authSlice);
 
 export const store = configureStore({
-  reducer: { auth: persistedReducer, transactions: transactionsSlice },
+  reducer: {
+    auth: persistedReducer,
+    balance: balanceSlice,
+    transactions: transactionsSlice,
+  },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {

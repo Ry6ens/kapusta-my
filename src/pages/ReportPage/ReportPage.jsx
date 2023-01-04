@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import { getBalance } from 'redux/transaction/transaction-selectors';
+import { checkBalance } from 'redux/balance/balance-selectors';
 
 import Section from 'components/layout/Section/Section';
 
@@ -22,7 +22,7 @@ export default function ReportPage() {
   const isTabletMax = useMediaQuery('(max-width: 1279.98px)');
   const isDesktop = useMediaQuery('(min-width: 1280px)');
 
-  const balance = useSelector(getBalance);
+  const balance = useSelector(checkBalance);
 
   const newStyleBalance = balance + ' UAH';
 

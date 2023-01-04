@@ -3,7 +3,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   getExpensesCategories,
   getIncomeCategories,
-  userAddBalance,
   getTransactionsByMonth,
   addTransaction,
   deleteTransaction,
@@ -13,7 +12,6 @@ import {
 } from './transaction-operations';
 
 const initialState = {
-  balance: 0,
   expensesCategories: [],
   incomeCategories: [],
   monthlySum: [],
@@ -64,21 +62,6 @@ const transactions = createSlice({
         state.incomeCategories = payload;
       })
       .addCase(getIncomeCategories.rejected, (state, { payload }) => {
-        state.loading = false;
-        state.error = payload.data.message;
-      });
-
-    // User add balance
-    builder
-      .addCase(userAddBalance.pending, state => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(userAddBalance.fulfilled, (state, { payload }) => {
-        state.balance = payload.newBalance;
-        state.loading = false;
-      })
-      .addCase(userAddBalance.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload.data.message;
       });

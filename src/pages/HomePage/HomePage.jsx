@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { getNewUser } from 'redux/auth/auth-selectors';
-import { getCurrentDate, getBalance } from 'redux/transaction/transaction-selectors';
+import { checkBalance } from 'redux/balance/balance-selectors';
+import { getCurrentDate } from 'redux/transaction/transaction-selectors';
+
+import { getBalance } from 'redux/balance/balance-operations';
 import { getTransactionsByMonth } from 'redux/transaction/transaction-operations';
 
 import Section from 'components/layout/Section/Section';
@@ -32,13 +35,14 @@ export default function HomePage() {
 
   const dispatch = useDispatch();
   const newUser = useSelector(getNewUser);
+  const balance = useSelector(checkBalance);
   const currentDate = useSelector(getCurrentDate);
-  const balance = useSelector(getBalance);
 
   useEffect(() => {
     if (currentDate === '') {
       return;
     }
+    dispatch(getBalance());
     dispatch(getTransactionsByMonth({ reqDate: currentDate }));
   }, [dispatch, currentDate]);
 

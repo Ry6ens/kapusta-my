@@ -1,7 +1,10 @@
-import { useSelector } from 'react-redux';
+import { useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { checkBalance } from 'redux/balance/balance-selectors';
+import { getCurrentDate } from 'redux/transaction/transaction-selectors';
+import { getTransactionsByMonth } from 'redux/transaction/transaction-operations';
 
 import Section from 'components/layout/Section/Section';
 
@@ -22,7 +25,18 @@ export default function ReportPage() {
   const isTabletMax = useMediaQuery('(max-width: 1279.98px)');
   const isDesktop = useMediaQuery('(min-width: 1280px)');
 
+  const dispatch = useDispatch();
+  const isMounted = useRef(true);
   const balance = useSelector(checkBalance);
+  const currentDate = useSelector(getCurrentDate);
+
+  useEffect(() => {
+    if (!isMounted.current) {
+      dispatch(getTransactionsByMonth({ date: currentDate }));
+    }
+
+    isMounted.current = false;
+  }, [dispatch, currentDate]);
 
   const newStyleBalance = balance + ' UAH';
 

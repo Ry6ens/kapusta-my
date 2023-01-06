@@ -35,3 +35,15 @@ export const axiosGetIncomeTransactionsByDate = async userData => {
   const { data } = await instance.post('api/transaction/income/date', userData);
   return data;
 };
+
+//Get transactions by month
+export const axiosGetTransactionsByMonth = async userData => {
+  const { data } = await instance.post('api/transaction/timeline', userData);
+  return data;
+};
+
+//Get summary by year
+export const axiosGetSummary = async userData => {
+  const { data } = await instance.post('api/transaction/summary', userData);
+  return data;
+};

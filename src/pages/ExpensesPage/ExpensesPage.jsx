@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
@@ -6,6 +6,7 @@ import { getCurrentDate } from 'redux/transaction/transaction-selectors';
 import {
   getExpensesTransactionsByDate,
   getExpensesCategories,
+  getSummary,
 } from 'redux/transaction/transaction-operations';
 
 import Section from 'components/layout/Section/Section';
@@ -16,7 +17,7 @@ import LinkReport from 'components/ui/LinkReport/LinkReport';
 
 import FormAddBalance from 'components/FormAddBalance/FormAddBalance';
 import FormAddExpInc from 'components/FormAddTransaction/FormAddTransaction';
-import CalendarHome from 'components/Calendar/Calendar';
+import Calendar from 'components/Calendar/Calendar';
 import TransactionList from 'components/TransactionList/TransactionList';
 import SlideWindow from 'components/SlideWindow/SlideWindow.jsx';
 import FormAddTransaction from 'components/FormAddTransaction/FormAddTransaction.jsx';
@@ -35,6 +36,7 @@ export default function ExpensesPage() {
   const isDesktop = useMediaQuery('(min-width: 1280px)');
 
   const dispatch = useDispatch();
+  const isMounted = useRef(true);
   const currentDate = useSelector(getCurrentDate);
 
   useEffect(() => {
@@ -42,7 +44,12 @@ export default function ExpensesPage() {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getExpensesTransactionsByDate({ date: currentDate }));
+    if (!isMounted.current) {
+      dispatch(getExpensesTransactionsByDate({ date: currentDate }));
+      dispatch(getSummary({ date: currentDate }));
+    }
+
+    isMounted.current = false;
   }, [dispatch, currentDate]);
 
   return (
@@ -55,7 +62,7 @@ export default function ExpensesPage() {
               <LinkReport />
               <FormAddBalance />
             </div>
-            <CalendarHome />
+            <Calendar />
             <SlideWindow text="Add expenses">
               <ButtonBack width="18" height="12" to="/expenses" />
               <FormAddExpInc />

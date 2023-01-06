@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
 import { deleteTransaction } from 'redux/transaction/transaction-operations';
 import { getTransactions } from 'redux/transaction/transaction-selectors';
@@ -20,9 +21,13 @@ export default function TransactionTable({ sectionClass = 'tbody' }) {
   const [showModal, setShowModal] = useState(false);
   const [id, setId] = useState('');
 
-  const items = useSelector(getTransactions);
+  const { transactions } = useSelector(getTransactions);
 
-  const reversedItems = [...items].reverse();
+  if (transactions === undefined) return;
+
+  const reversedItems = [...transactions].sort(
+    (a, b) => new Date(b.date) - new Date(a.date)
+  );
 
   const handelDelete = ({ currentTarget: { id } }) => {
     document.body.classList.add('no-scroll');
@@ -42,7 +47,7 @@ export default function TransactionTable({ sectionClass = 'tbody' }) {
 
   const elements = reversedItems.map(({ _id, description, amount, date, category }) => (
     <tr key={_id} className={s.item}>
-      <td>{date}</td>
+      <td>{moment(date).format('DD.MM.YYYY')}</td>
       <td>{description}</td>
       <td>{category}</td>
       <td

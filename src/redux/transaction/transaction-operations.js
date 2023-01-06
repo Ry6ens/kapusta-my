@@ -7,6 +7,8 @@ import {
   axiosDeleteTransaction,
   axiosGetExpensesTransactionsByDate,
   axiosGetIncomeTransactionsByDate,
+  axiosGetTransactionsByMonth,
+  axiosGetSummary,
 } from 'api/transactions';
 
 export const getExpensesCategories = createAsyncThunk(
@@ -79,6 +81,32 @@ export const getIncomeTransactionsByDate = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const data = await axiosGetIncomeTransactionsByDate(userData);
+      return data;
+    } catch (error) {
+      const { data, status } = error.response;
+      return rejectWithValue({ data, status });
+    }
+  }
+);
+
+export const getTransactionsByMonth = createAsyncThunk(
+  'transaction/getByMonth',
+  async (userData, { rejectWithValue }) => {
+    try {
+      const data = await axiosGetTransactionsByMonth(userData);
+      return data;
+    } catch (error) {
+      const { data, status } = error.response;
+      return rejectWithValue({ data, status });
+    }
+  }
+);
+
+export const getSummary = createAsyncThunk(
+  'transaction/getSummary',
+  async (userData, { rejectWithValue }) => {
+    try {
+      const data = await axiosGetSummary(userData);
       return data;
     } catch (error) {
       const { data, status } = error.response;

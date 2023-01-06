@@ -17,17 +17,17 @@ export default function Calendar({ dateFormat = 'dd.MM.yyyy', showMonthYearPicke
   const dispatch = useDispatch();
   const { pathname } = useLocation();
 
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(new Date()); // 2023-12-31T00:00:00.000Z
 
   useEffect(() => {
-    dispatch(addDate(moment(new Date()).format('DD.MM.yyyy')));
+    dispatch(addDate(moment(new Date()).format()));
   }, [dispatch]);
 
   const pathNamePage =
     pathname === '/' || pathname === '/expenses' || pathname === '/income' ? true : false;
 
   const handleChange = data => {
-    const setDate = moment(data).format('DD.MM.yyyy');
+    const setDate = moment(data).format(); // 2023-12-31T00:00:00.000Z
     setStartDate(data);
     dispatch(addDate(setDate));
   };
@@ -39,11 +39,13 @@ export default function Calendar({ dateFormat = 'dd.MM.yyyy', showMonthYearPicke
   const handleDecrementMonth = () => {
     const newDate = new Date(year, mounth - 1, day);
     setStartDate(newDate);
+    dispatch(addDate(moment(newDate).format()));
   };
 
   const handleIncrementMonth = () => {
     const newDate = new Date(year, mounth + 1, day);
     setStartDate(newDate);
+    dispatch(addDate(moment(newDate).format()));
   };
 
   const CustomInputExpInc = forwardRef(({ value, onClick }, ref) => (
@@ -73,7 +75,12 @@ export default function Calendar({ dateFormat = 'dd.MM.yyyy', showMonthYearPicke
       )}
       {pathname === '/report' && (
         <div className={s.reportCalendar}>
-          <ArrowCalendLeftIcon width="7px" height="10px" onClick={handleDecrementMonth} />
+          <ArrowCalendLeftIcon
+            className={s.btnArrow}
+            width="7px"
+            height="10px"
+            onClick={handleDecrementMonth}
+          />
           <div>
             <DatePicker
               selected={startDate}
@@ -85,6 +92,7 @@ export default function Calendar({ dateFormat = 'dd.MM.yyyy', showMonthYearPicke
             />
           </div>
           <ArrowCalendRightIcon
+            className={s.btnArrow}
             width="7px"
             height="10px"
             onClick={handleIncrementMonth}

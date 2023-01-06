@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+
+import { getIncomesData, getExpensesData } from 'redux/transaction/transaction-selectors';
 
 import ArrowCalendLeftIcon from 'components/icons/ArrowCalendLeft/ArrowCalendLeft';
 import ArrowCalendRightIcon from 'components/icons/ArrowCalendRight/ArrowCalendRight';
@@ -39,9 +42,9 @@ const FilterIcon = (category, height) => {
       return <HousingIcon height={height} />;
     case 'technique':
       return <TechniqueIcon height={height} />;
-    case 'communal, communication':
+    case 'communal':
       return <CommunalIcon height={height} />;
-    case 'sports, hobbies':
+    case 'sports':
       return <SportsIcon height={height} />;
     case 'education':
       return <EducationIcon height={height} />;
@@ -59,6 +62,22 @@ const FilterIcon = (category, height) => {
 export default function SliderReport() {
   const [item, setItem] = useState(true);
 
+  const incomesData = useSelector(getIncomesData);
+  const expensesData = useSelector(getExpensesData);
+
+  if (incomesData === undefined || expensesData === undefined) return;
+
+  let incomesItems = [];
+  let expensesItems = [];
+
+  for (const key in incomesData) {
+    incomesItems.push({ category: key, total: incomesData[key].total });
+  }
+
+  for (const key in expensesData) {
+    expensesItems.push({ category: key, total: expensesData[key].total });
+  }
+
   const handlerToggle = () => {
     setItem(!item);
   };
@@ -66,20 +85,30 @@ export default function SliderReport() {
   return (
     <div className={s.overlay}>
       <div className={s.overlayBtn}>
-        <ArrowCalendLeftIcon width="7px" height="10px" onClick={handlerToggle} />
+        <ArrowCalendLeftIcon
+          className={s.btn}
+          width="7px"
+          height="10px"
+          onClick={handlerToggle}
+        />
         {item ? (
           <Text text="Expenses" textClass="textSliderTitle" />
         ) : (
           <Text text="Income" textClass="textSliderTitle" />
         )}
-        <ArrowCalendRightIcon width="7px" height="10px" onClick={handlerToggle} />
+        <ArrowCalendRightIcon
+          className={s.btn}
+          width="7px"
+          height="10px"
+          onClick={handlerToggle}
+        />
       </div>
 
       {item && (
         <ul className={s.list}>
-          {expenses.map(({ category, sum }) => (
+          {expensesItems?.map(({ category, total }) => (
             <li key={category} className={s.item}>
-              <Text text={sum} />
+              <Text text={total} />
               {FilterIcon(category, '56')}
               <div className={s.overlayIcon}>
                 <RectangleIcon width="59px" height="46px" fill="#F5F6FB" />
@@ -91,9 +120,9 @@ export default function SliderReport() {
       )}
       {!item && (
         <ul className={s.list}>
-          {income.map(({ category, sum }) => (
+          {incomesItems?.map(({ category, total }) => (
             <li key={category} className={s.item}>
-              <Text text={sum} />
+              <Text text={total} />
               {FilterIcon(category, '56')}
               <div className={s.overlayIcon}>
                 <RectangleIcon width="59px" height="46px" fill="#F5F6FB" />

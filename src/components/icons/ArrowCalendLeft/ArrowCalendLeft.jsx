@@ -1,6 +1,6 @@
-export default function ArrowCalendLeftIcon({ width, height, onClick }) {
+export default function ArrowCalendLeftIcon({ className, width, height, onClick }) {
   return (
-    <div onClick={onClick}>
+    <div className={className} onClick={onClick}>
       <svg
         width={width}
         height={height}

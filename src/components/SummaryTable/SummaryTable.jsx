@@ -1,17 +1,17 @@
 import { useSelector } from 'react-redux';
 
-import { getMonthlySum } from 'redux/transaction/transaction-selectors';
+import { getSummary } from 'redux/transaction/transaction-selectors';
 
 import s from './SummaryTable.module.scss';
 
 export default function Summary() {
-  const items = useSelector(getMonthlySum);
+  let items = useSelector(getSummary);
 
-  if (items === undefined) {
-    return;
+  if (!items.length) return;
+
+  if (items[0].year === '2022') {
+    items = [...items].reverse();
   }
-
-  const reversedItems = [...items].reverse();
 
   return (
     <table className={s.table}>
@@ -23,7 +23,7 @@ export default function Summary() {
         </tr>
       </thead>
       <tbody className={s.tbody}>
-        {reversedItems.map(({ month, sum }) => (
+        {items.map(({ month, sum }) => (
           <tr key={month} className={s.item}>
             <td className={s.td}>{month}</td>
             <td className={s.td}>{sum}</td>

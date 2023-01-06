@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -6,6 +6,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import {
   getIncomeTransactionsByDate,
   getIncomeCategories,
+  getSummary,
 } from 'redux/transaction/transaction-operations';
 import { getCurrentDate } from 'redux/transaction/transaction-selectors';
 
@@ -36,6 +37,7 @@ export default function IncomePage() {
   const isDesktop = useMediaQuery('(min-width: 1280px)');
 
   const dispatch = useDispatch();
+  const isMounted = useRef(true);
   const currentDate = useSelector(getCurrentDate);
 
   useEffect(() => {
@@ -43,7 +45,12 @@ export default function IncomePage() {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getIncomeTransactionsByDate({ date: currentDate }));
+    if (!isMounted.current) {
+      dispatch(getIncomeTransactionsByDate({ date: currentDate }));
+      dispatch(getSummary({ date: currentDate }));
+    }
+
+    isMounted.current = false;
   }, [dispatch, currentDate]);
 
   return (

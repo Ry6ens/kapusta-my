@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
@@ -7,7 +7,10 @@ import { checkBalance } from 'redux/balance/balance-selectors';
 import { getCurrentDate } from 'redux/transaction/transaction-selectors';
 
 import { getBalance } from 'redux/balance/balance-operations';
-// import { getTransactionsByMonth } from 'redux/transaction/transaction-operations';
+import {
+  getSummary,
+  getTransactionsByMonth,
+} from 'redux/transaction/transaction-operations';
 
 import Section from 'components/layout/Section/Section';
 
@@ -34,16 +37,23 @@ export default function HomePage() {
   const isDesktop = useMediaQuery('(min-width: 1280px)');
 
   const dispatch = useDispatch();
+  const isMounted = useRef(true);
+
   const newUser = useSelector(getNewUser);
   const balance = useSelector(checkBalance);
   const currentDate = useSelector(getCurrentDate);
 
   useEffect(() => {
-    if (currentDate === '') {
-      return;
-    }
     dispatch(getBalance());
-    // dispatch(getTransactionsByMonth({ reqDate: currentDate }));
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!isMounted.current) {
+      dispatch(getTransactionsByMonth({ date: currentDate }));
+      dispatch(getSummary({ date: currentDate }));
+    }
+
+    isMounted.current = false;
   }, [dispatch, currentDate]);
 
   return (

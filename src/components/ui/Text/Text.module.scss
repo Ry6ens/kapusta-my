@@ -149,18 +149,6 @@
   text-transform: initial;
 }
 
-.textBalanceChartNumber {
-  margin-top: 5px;
-
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 1.14;
-
-  @include mixins.mq(tablet) {
-    margin: 0px;
-  }
-}
-
 .textSliderTitle {
   font-weight: 700;
   font-size: 14px;

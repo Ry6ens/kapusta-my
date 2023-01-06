@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
 import { deleteTransaction } from 'redux/transaction/transaction-operations';
 import { getTransactions } from 'redux/transaction/transaction-selectors';
@@ -20,9 +21,13 @@ export default function TransactionList({ listClass = 'list' }) {
   const [showModal, setShowModal] = useState(false);
   const [id, setId] = useState('');
 
-  const items = useSelector(getTransactions);
+  const { transactions } = useSelector(getTransactions);
 
-  const reversedItems = [...items].reverse();
+  if (transactions === undefined) return;
+
+  const reversedItems = [...transactions].sort(
+    (a, b) => new Date(b.date) - new Date(a.date)
+  );
 
   const handelDelete = ({ currentTarget: { id } }) => {
     document.body.classList.add('no-scroll');
@@ -58,8 +63,8 @@ export default function TransactionList({ listClass = 'list' }) {
         id={_id}
         onClick={handelDelete}
       />
-      <p className={s.date}>{date}</p>
-      <p className={s.category}>{date}</p>
+      <p className={s.date}>{moment(date).format('DD.MM.YYYY')}</p>
+      <p className={s.category}>{category}</p>
     </li>
   ));
 

@@ -2,7 +2,7 @@ import instance from './auth';
 
 //Get user balance
 export const axiosGetBalance = async () => {
-  const { data } = await instance.get('api/balance/');
+  const { data } = await instance.get('api/balance');
   return data;
 };
 

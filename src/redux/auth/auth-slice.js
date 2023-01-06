@@ -16,6 +16,7 @@ const initialState = {
   todaySummary: {},
   accessToken: '',
   refreshToken: '',
+  message: '',
   sid: '',
   isLogin: false,
   loading: false,

@@ -31,7 +31,7 @@ export default function AvatarUpload() {
   return (
     <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
       <Avatar alt={name} src={avatarUrl} width="72px" height="72px" />
-      <FormInputFile register={register} />
+      <FormInputFile className={s.input} register={register} />
       <Button text="Upload" btnClass="btnUpload" type="submit" />
     </form>
   );

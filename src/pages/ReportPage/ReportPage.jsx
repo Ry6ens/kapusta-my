@@ -14,8 +14,10 @@ import Text from 'components/ui/Text/Text';
 import Calendar from 'components/Calendar/Calendar';
 import BalanceChart from 'components/BalanceChart/BalanceChart';
 import SliderReport from 'components/SliderReport/SliderReport';
+import Chart from 'components/Chart/Chart';
 
-import BarChart from 'components/BarChart/BarChart';
+import KapustaTwoIcon from 'components/icons/KapustaTwo/KapustaTwo';
+import KapustaManyIcon from 'components/icons/KapustaMany/KapustaMany';
 
 import s from './ReportPage.module.scss';
 
@@ -51,8 +53,7 @@ export default function ReportPage() {
           <Text text={newStyleBalance} textClass="textBalanceDisplay" />
           <BalanceChart />
           <SliderReport />
-
-          <BarChart />
+          <Chart />
         </>
       )}
 
@@ -69,11 +70,10 @@ export default function ReportPage() {
               <Calendar dateFormat="MMMM yyyy" showMonthYearPicker={true} />
             </div>
           </div>
-
           <BalanceChart />
           <SliderReport />
-
-          <BarChart />
+          <Chart />
+          <KapustaTwoIcon iconClass="reportBottom" width="183" height="142" />
         </>
       )}
 
@@ -90,11 +90,10 @@ export default function ReportPage() {
               <Calendar dateFormat="MMMM yyyy" showMonthYearPicker={true} />
             </div>
           </div>
-
           <BalanceChart />
           <SliderReport />
-
-          <BarChart />
+          <Chart />
+          <KapustaManyIcon iconClass="expens" width="1334" height="232" />
         </>
       )}
     </Section>

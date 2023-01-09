@@ -91,6 +91,45 @@
     }
 }
 
+.itemActive {
+    position: relative;
+
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px;
+
+    border-bottom: 1px solid #e0e5eb;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+
+    fill: var(--accent-color);
+
+
+    cursor: pointer;
+
+    & svg:hover,
+    & svg:focus {
+        fill: var(--accent-color);
+
+        &+div svg {
+            fill: #FFDAC0;
+            z-index: -1;
+        }
+    }
+
+    @include mixins.mq(tablet) {
+        width: 105px;
+
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+
+        border-bottom: none;
+    }
+}
+
 .overlayIcon {
     position: absolute;
     top: 50%;

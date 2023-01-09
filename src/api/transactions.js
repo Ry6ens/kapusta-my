@@ -45,6 +45,5 @@ export const axiosGetTransactionsByMonth = async userData => {
 //Get summary by year
 export const axiosGetSummary = async userData => {
   const { data } = await instance.post('api/transaction/summary', userData);
-  console.log(data);
   return data;
 };

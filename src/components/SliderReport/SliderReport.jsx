@@ -1,7 +1,15 @@
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { getIncomesData, getExpensesData } from 'redux/transaction/transaction-selectors';
+import {
+  getIncomesData,
+  getExpensesData,
+  getTransactions,
+} from 'redux/transaction/transaction-selectors';
+import {
+  filterTransactionsByCategory,
+  clearChart,
+} from 'redux/transaction/transaction-slice';
 
 import ArrowCalendLeftIcon from 'components/icons/ArrowCalendLeft/ArrowCalendLeft';
 import ArrowCalendRightIcon from 'components/icons/ArrowCalendRight/ArrowCalendRight';
@@ -23,8 +31,6 @@ import RectangleIcon from 'components/icons/Rectangle/Rectangle';
 import Text from 'components/ui/Text/Text';
 
 import s from './SliderReport.module.scss';
-
-import { expenses, income } from './data.js';
 
 const FilterIcon = (category, height) => {
   switch (category?.toLocaleLowerCase()) {
@@ -60,10 +66,28 @@ const FilterIcon = (category, height) => {
 };
 
 export default function SliderReport() {
-  const [item, setItem] = useState(true);
+  const dispatch = useDispatch();
+  const [item, setItem] = useState('expenses');
+  const [active, setActive] = useState(false);
 
   const incomesData = useSelector(getIncomesData);
   const expensesData = useSelector(getExpensesData);
+  const { transactions } = useSelector(getTransactions);
+
+  useEffect(() => {
+    if (transactions[0]?.category === undefined || transactions[0]?.type === undefined) {
+      dispatch(clearChart());
+      return;
+    }
+
+    const filterByExpenses = transactions.filter(el => el.type === 'expenses');
+    const filterByCategory = filterByExpenses.filter(
+      el => el.category === filterByExpenses[0].category
+    );
+    const sortData = filterByCategory.sort((a, b) => b.amount - a.amount);
+    setActive(sortData[0]?.category);
+    dispatch(filterTransactionsByCategory(sortData));
+  }, [dispatch, transactions]);
 
   if (incomesData === undefined || expensesData === undefined) return;
 
@@ -79,7 +103,32 @@ export default function SliderReport() {
   }
 
   const handlerToggle = () => {
-    setItem(!item);
+    if (item === 'income') {
+      setItem('expenses');
+      const filterByExpenses = transactions.filter(el => el.type === 'expenses');
+      const filterByCategory = filterByExpenses.filter(
+        el => el.category === filterByExpenses[0].category
+      );
+      const sortData = filterByCategory.sort((a, b) => b.amount - a.amount);
+      setActive(sortData[0]?.category);
+      dispatch(filterTransactionsByCategory(sortData));
+      return;
+    }
+    setItem('income');
+    const filterByExpenses = transactions.filter(el => el.type === 'income');
+    const filterByCategory = filterByExpenses.filter(
+      el => el.category === filterByExpenses[0].category
+    );
+    const sortData = filterByCategory.sort((a, b) => b.amount - a.amount);
+    setActive(sortData[0]?.category);
+    dispatch(filterTransactionsByCategory(sortData));
+  };
+
+  const handleClick = ({ currentTarget: { id } }) => {
+    setActive(id);
+    const filterData = transactions.filter(el => el.category === id);
+    const sortData = filterData.sort((a, b) => b.amount - a.amount);
+    dispatch(filterTransactionsByCategory(sortData));
   };
 
   return (
@@ -91,7 +140,7 @@ export default function SliderReport() {
           height="10px"
           onClick={handlerToggle}
         />
-        {item ? (
+        {item === 'expenses' ? (
           <Text text="Expenses" textClass="textSliderTitle" />
         ) : (
           <Text text="Income" textClass="textSliderTitle" />
@@ -104,10 +153,15 @@ export default function SliderReport() {
         />
       </div>
 
-      {item && (
+      {item === 'expenses' && (
         <ul className={s.list}>
           {expensesItems?.map(({ category, total }) => (
-            <li key={category} className={s.item}>
+            <li
+              key={category}
+              id={category}
+              className={active === category ? s.itemActive : s.item}
+              onClick={handleClick}
+            >
               <Text text={total} />
               {FilterIcon(category, '56')}
               <div className={s.overlayIcon}>
@@ -118,10 +172,15 @@ export default function SliderReport() {
           ))}
         </ul>
       )}
-      {!item && (
+      {item === 'income' && (
         <ul className={s.list}>
           {incomesItems?.map(({ category, total }) => (
-            <li key={category} className={s.item}>
+            <li
+              key={category}
+              id={category}
+              className={active === category ? s.itemActive : s.item}
+              onClick={handleClick}
+            >
               <Text text={total} />
               {FilterIcon(category, '56')}
               <div className={s.overlayIcon}>

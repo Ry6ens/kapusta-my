@@ -22,3 +22,26 @@
         margin: 60px 0px 0px 140px;
     }
 }
+
+.reportBottom {
+    display: none;
+
+    @include mixins.mq(tablet) {
+        margin-right: 60px;
+
+        position: relative;
+        bottom: 20px;
+
+        display: block;
+
+        text-align: right;
+
+        z-index: -1;
+    }
+
+    @include mixins.mq(desktop) {
+        bottom: 0px;
+
+        margin: 60px 0px 0px 140px;
+    }
+}

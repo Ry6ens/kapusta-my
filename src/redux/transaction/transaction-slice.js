@@ -16,12 +16,11 @@ const initialState = {
   incomeCategories: [],
   transactions: [],
   summary: [],
+  chartData: [],
   currentDate: '',
   message: '',
   loading: false,
   error: null,
-  calendarDate: null,
-  chartData: [],
 };
 
 const transactions = createSlice({
@@ -31,8 +30,11 @@ const transactions = createSlice({
     addDate: (state, { payload }) => {
       state.currentDate = payload;
     },
-    addCalendarDate: (state, { payload }) => {
-      state.calendarDate = payload;
+    filterTransactionsByCategory: (state, { payload }) => {
+      state.chartData = payload;
+    },
+    clearChart: (state, _) => {
+      state.chartData = [];
     },
   },
   extraReducers: builder => {
@@ -162,5 +164,4 @@ const transactions = createSlice({
 
 export default transactions.reducer;
 
-export const { addDate } = transactions.actions;
-export const { addCalendarDate } = transactions.actions;
+export const { addDate, filterTransactionsByCategory, clearChart } = transactions.actions;

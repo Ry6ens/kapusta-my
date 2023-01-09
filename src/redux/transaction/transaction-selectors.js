@@ -1,6 +1,7 @@
 export const getExpCateg = ({ transactions }) => transactions.expensesCategories;
 export const getIncomCateg = ({ transactions }) => transactions.incomeCategories;
 
+export const getTransactions = ({ transactions }) => transactions.transactions;
 export const getIncomesTotal = ({ transactions }) =>
   transactions.transactions.incomes?.total;
 export const getIncomesData = ({ transactions }) =>
@@ -10,10 +11,8 @@ export const getExpensesTotal = ({ transactions }) =>
 export const getExpensesData = ({ transactions }) =>
   transactions.transactions.expenses?.expensesData;
 export const getSummary = ({ transactions }) => transactions.summary;
-export const getTransactions = ({ transactions }) => transactions.transactions;
 export const getCurrentDate = ({ transactions }) => transactions.currentDate;
-export const getCalendarDate = ({ transactions }) => transactions.calendarDate;
-export const getCategoryData = ({ transactions }) => transactions.chartData;
+export const getChartData = ({ transactions }) => transactions.chartData;
 
 export const isMessage = ({ transactions }) => transactions.message;
 export const isLoading = ({ transactions }) => transactions.loading;
